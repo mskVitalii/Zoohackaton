@@ -1,8 +1,7 @@
 import React from "react";
 
-import styles from "./map.css";
+import "./map.css";
 import fire from "./assets/fire.svg";
-// import animals from "./assets/pug.png";
 
 function WarnMap() {
   function appearWarnPage(e) {

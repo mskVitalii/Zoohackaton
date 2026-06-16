@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Urban Poaching</title>
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=fa649e4f-86aa-4a72-8e01-b911409bc145&lang=en"
+      type="text/javascript"
+    ></script>
+    <script>
+      ymaps.ready(function () {
+        let panel = document.querySelector(".panel");
+
+        let myMap = new ymaps.Map("map", {
+          center: [55.76, 37.64],
+          zoom: 12,
+        });
+
+        let mark;
+        myMap.events.add("click", function (e) {
+          let myPlacemark = new ymaps.Placemark(
+            e.get("coords"),
+            {},
+            { preset: "islands#redDotIcon" }
+          );
+
+          let geocoder = ymaps.geocode(e.get("coords"));
+          geocoder.then(function (res) {
+            window.address = res.geoObjects.get(0).properties.get("text");
+          });
+
+          if (mark) {
+            myMap.geoObjects.remove(mark);
+            panel.style.height = "0px";
+            mark = null;
+          } else {
+            myMap.geoObjects.add(myPlacemark);
+            panel.style.height = "85px";
+            mark = myPlacemark;
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
